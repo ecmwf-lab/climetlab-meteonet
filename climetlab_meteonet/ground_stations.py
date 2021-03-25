@@ -9,6 +9,7 @@
 
 import pandas as pd
 from climetlab.utils import download_and_cache
+from climetlab.decorators import parameters
 
 from . import Meteonet
 
@@ -21,10 +22,11 @@ class MeteonetGroundStations(Meteonet):
     def __init__(self):
         pass
 
+    @parameters(date=("date-list",))
     def _load(self, domain="NW", date="20160101"):
 
-        url = "{url}/ground_stations/{domain}_{date}.csv".format(
-            url=self.URL, domain=domain, date=date
+        url = "{url}/ground_stations/{domain}{date}.csv.gz".format(
+            url=self.URL, domain=domain, date=date[0].year
         )
 
         self.path = download_and_cache(url)

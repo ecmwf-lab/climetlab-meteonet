@@ -1,6 +1,8 @@
 # Some questions
-Can we rename p3008? )(orography)
 
+## Masks
+
+Can we rename p3008? (orography)
 
 ## Radar
 
@@ -10,3 +12,6 @@ Can we rename p3008? )(orography)
 ## Models
 
 Capitalisation of model name is inconsistent
+
+## Ground stations
+Year =?
