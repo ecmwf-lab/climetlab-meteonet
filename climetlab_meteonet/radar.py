@@ -51,6 +51,14 @@ class Part:
                 return True
         return False
 
+    def filter_dates(self, date):
+        date_plus_1 = date + datetime.timedelta(days=1)
+        result = []
+        for d in self.dates:
+            if d >= date and d < date_plus_1:
+                result.append(d)
+        return result
+
     def __repr__(self):
         return f"Radar[{self.variable}_{self.domain}_{self.year}_{self.month:02d}.{self.part}.npz]"
 
@@ -122,17 +130,17 @@ class MeteonetRadar(Meteonet):
         ds["x"].attrs["axis"] = "X"
         ds["y"].attrs["axis"] = "Y"
 
-        self._xarray = ds
+        dates = []
+        for d in date:
+            dates += use_parts[0].filter_dates(d)
+        self._xarray = ds.sel(time=dates)
 
     def to_xarray(self):
         return self._xarray
 
     def plot_map(self, driver):
         driver.bounding_box(self.north, self.west, self.south, self.east)
-
-        dimensions = {"time": 0}
-
-        driver.plot_xarray(self._xarray, self.variable, dimensions)
+        driver.plot_xarray(self._xarray, self.variable)
         driver.style("meteonet-radar-{}".format(self.variable))
 
 
