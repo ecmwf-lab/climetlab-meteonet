@@ -9,8 +9,28 @@
 
 
 from climetlab import load_source
+from climetlab.decorators import parameters
 
 from . import Meteonet
+
+PATTERN = (
+    "{URL}"
+    "/weather_models"
+    "/{domain}_weather_models_{n}D_parameters_{date:date(%Y)}"
+    "/{date:date(%Y%m)}"
+    "/{model_upper}"
+    "/{variable}"
+    "/{model_lower}_{variable}_{domain}_{date:date(%Y%m%d)}{time}00.grib"
+)
+
+N_DIMENSIONS = {
+    "2m": 2,
+    "P_sea_level": 2,
+    "10m": 2,
+    "PRECIP": 2,
+    "3D_height": 3,
+    "3D_isobar": 3,
+}
 
 
 class MeteonetWeatherModels(Meteonet):
@@ -18,22 +38,22 @@ class MeteonetWeatherModels(Meteonet):
     See https://github.com/meteofrance/meteonet
     """
 
-    def __init__(self):
-        pass
-
+    @parameters(date=("date-list",))
     def _load(
         self, model="arome", variable="2m", domain="NW", date="20180501", time="0000"
     ):
 
-        url = "{url}/weather_models/{model}_{variable}_{domain}_{date}{time}00.grib".format(
-            url=self.URL,
-            variable=variable,
-            model=model,
+        request = dict(
+            URL=self.URL,
             domain=domain,
+            variable=variable,
             date=date,
             time=time,
+            model_upper=model.upper(),
+            model_lower=model.lower(),
+            n=N_DIMENSIONS[variable],
         )
-        self.source = load_source("url", url)
+        self.source = load_source("url-pattern", PATTERN, request)
 
 
 dataset = MeteonetWeatherModels

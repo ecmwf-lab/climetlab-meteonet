@@ -7,9 +7,11 @@
 # nor does it submit to any jurisdiction.
 #
 
+import datetime
+
 import numpy as np
 import xarray as xr
-
+from climetlab.decorators import parameters
 from climetlab.utils import download_and_cache
 
 from . import Meteonet
@@ -22,6 +24,37 @@ reflectivity_old
 """
 
 
+class Part:
+    def __init__(self, url, domain, variable, year, month, part):
+        self.domain = domain
+        self.variable = variable
+        self.year = year
+        self.month = month
+        self.part = part
+
+        url = f"{url}/radar/{variable}_{domain}_{year}_{month:02d}.{part}.npz"
+
+        path = download_and_cache(url)
+        self.content = np.load(path, allow_pickle=True)
+
+        self.dates = self.content["dates"]
+        self.missing = self.content["miss_dates"]
+
+    @property
+    def data(self):
+        return self.content["data"]
+
+    def match(self, date):
+        date_plus_1 = date + datetime.timedelta(days=1)
+        for d in self.dates:
+            if d >= date and d < date_plus_1:
+                return True
+        return False
+
+    def __repr__(self):
+        return f"Radar[{self.variable}_{self.domain}_{self.year}_{self.month:02d}.{self.part}.npz]"
+
+
 class MeteonetRadar(Meteonet):
     """
     See https://github.com/meteofrance/meteonet
@@ -30,7 +63,18 @@ class MeteonetRadar(Meteonet):
     def __init__(self):
         pass
 
-    def _load(self, domain="NW", variable="rainfall", year=2016, month=8, part=3):
+    @parameters(date=("date-list",))
+    def _load(self, domain="NW", variable="rainfall", date=20160101):
+        self.variable = variable
+
+        parts = {}
+        for d in date:
+            yyyymm = d.strftime("%Y%m")
+            for p in range(3):
+                if (yyyymm, p) not in parts:
+                    parts[(yyyymm, p)] = Part(
+                        self.URL, domain, variable, d.year, d.month, p + 1
+                    )
 
         url = "{url}/radar/radar_coords_{domain}.npz".format(
             url=self.URL, domain=domain
@@ -43,22 +87,16 @@ class MeteonetRadar(Meteonet):
         lats = coords["lats"] - resolution / 2
         lons = coords["lons"] + resolution / 2
 
-        url = "{url}/radar/{variable}_{domain}_{year}_{month:02d}.{part}.npz".format(
-            url=self.URL,
-            domain=domain,
-            variable=variable,
-            year=year,
-            month=month,
-            part=part,
-        )
+        use_parts = []
+        for _, p in sorted(parts.items()):
+            for d in date:
+                if p.match(d):
+                    use_parts.append(p)
+                    break
+        assert len(use_parts) == 1
 
-        path = download_and_cache(url)
-        content = np.load(path, allow_pickle=True)
-        data = content["data"]
-        times = content["dates"]
-        # missing = content['miss_dates']
-
-        self.variable = variable
+        data = use_parts[0].data
+        times = use_parts[0].dates
 
         ds = xr.Dataset(
             {

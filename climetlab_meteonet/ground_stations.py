@@ -8,7 +8,6 @@
 #
 
 import pandas as pd
-
 from climetlab.utils import download_and_cache
 
 from . import Meteonet

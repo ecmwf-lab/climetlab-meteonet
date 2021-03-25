@@ -38,14 +38,17 @@ setuptools.setup(
     author="European Centre for Medium-Range Weather Forecasts (ECMWF)",
     author_email="software.support@ecmwf.int",
     license="Apache License Version 2.0",
-    url="https://github.com/ecmwf-lab/climetlab-s2s-ai-competition",
+    url="https://github.com/ecmwf-lab/climetlab-meteonet",
     packages=setuptools.find_packages(),
     include_package_data=True,
-    install_requires=["climetlab>=0.3.21"],
+    install_requires=["climetlab>=0.3.22"],
     zip_safe=True,
     entry_points={
         "climetlab.datasets": [
-            "meteonet = climetlab_meteonet",
+            "meteonet-ground-stations = climetlab_meteonet.ground_stations",
+            "meteonet-radar = climetlab_meteonet.radar",
+            "meteonet-masks = climetlab_meteonet.masks",
+            "meteonet-weather-models = climetlab_meteonet.weather_models",
         ]
     },
     keywords="meteorology",

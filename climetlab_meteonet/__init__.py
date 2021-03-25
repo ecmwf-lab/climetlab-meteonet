@@ -14,7 +14,8 @@ from climetlab import Dataset
 
 class Meteonet(Dataset):
 
-    URL = "https://github.com/meteofrance/meteonet/raw/master/data_samples"
+    # FIXME: This is a temporary URL, for development only
+    URL = "http://datastore.copernicus-climate.eu/meteonet/dataset/data/"
 
     home_page = "https://meteonet.umr-cnrm.fr"
 
