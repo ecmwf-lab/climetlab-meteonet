@@ -7,6 +7,8 @@
 # nor does it submit to any jurisdiction.
 #
 
+__version__ = "0.0.1"
+
 from climetlab import Dataset
 
 
