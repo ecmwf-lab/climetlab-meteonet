@@ -39,7 +39,7 @@ class MeteonetWeatherModels(Meteonet):
     """
 
     @parameters(date=("date-list",))
-    def _load(
+    def __init__(
         self, model="arome", variable="2m", domain="NW", date="20180501", time="0000"
     ):
 

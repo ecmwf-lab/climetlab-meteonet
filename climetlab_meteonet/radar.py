@@ -68,11 +68,8 @@ class MeteonetRadar(Meteonet):
     See https://github.com/meteofrance/meteonet
     """
 
-    def __init__(self):
-        pass
-
     @parameters(date=("date-list",))
-    def _load(self, domain="NW", variable="rainfall", date=20160101):
+    def __init__(self, domain="NW", variable="rainfall", date=20160101):
         self.variable = variable
 
         parts = {}

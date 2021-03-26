@@ -19,11 +19,8 @@ class MeteonetGroundStations(Meteonet):
     See https://github.com/meteofrance/meteonet
     """
 
-    def __init__(self):
-        pass
-
     @parameters(date=("date-list",))
-    def _load(self, domain="NW", date="20160101"):
+    def __init__(self, domain="NW", date="20160101"):
 
         url = "{url}/ground_stations/{domain}{date}.csv.gz".format(
             url=self.URL, domain=domain, date=date[0].year
