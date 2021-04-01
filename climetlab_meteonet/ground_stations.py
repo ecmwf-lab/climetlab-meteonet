@@ -8,8 +8,8 @@
 #
 
 import pandas as pd
+from climetlab.normalize import normalize_args
 from climetlab.utils import download_and_cache
-from climetlab.decorators import parameters
 
 from . import Meteonet
 
@@ -19,7 +19,7 @@ class MeteonetGroundStations(Meteonet):
     See https://github.com/meteofrance/meteonet
     """
 
-    @parameters(date=("date-list",))
+    @normalize_args(domain=Meteonet.DOMAINS, date="date-list")
     def __init__(self, domain="NW", date="20160101"):
 
         url = "{url}/ground_stations/{domain}{date}.csv.gz".format(

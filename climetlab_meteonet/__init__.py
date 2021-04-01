@@ -7,9 +7,10 @@
 # nor does it submit to any jurisdiction.
 #
 
-__version__ = "0.0.1"
+__version__ = "0.0.21"
 
 from climetlab import Dataset
+
 
 
 class Meteonet(Dataset):
@@ -22,3 +23,6 @@ class Meteonet(Dataset):
     licence = "https://meteonet.umr-cnrm.fr/dataset/LICENCE.md"
 
     documentation = "https://meteofrance.github.io/meteonet/"
+
+    DOMAINS = ["NW", "SE"]
+    MODELS = ['arome', 'arpege']

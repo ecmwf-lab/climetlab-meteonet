@@ -9,7 +9,7 @@
 
 
 from climetlab import load_source
-from climetlab.decorators import parameters
+from climetlab.normalize import normalize_args
 
 from . import Meteonet
 
@@ -38,9 +38,19 @@ class MeteonetWeatherModels(Meteonet):
     See https://github.com/meteofrance/meteonet
     """
 
-    @parameters(date=("date-list",))
+    @normalize_args(
+        model=Meteonet.MODELS,
+        variable=list(N_DIMENSIONS.keys()),
+        domain=Meteonet.DOMAINS,
+        date="date-list",
+    )
     def __init__(
-        self, model="arome", variable="2m", domain="NW", date="20180501", time="0000"
+        self,
+        model,
+        variable,
+        domain="NW",
+        date="20180501",
+        time="0000",
     ):
 
         request = dict(

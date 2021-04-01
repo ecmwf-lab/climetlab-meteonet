@@ -11,17 +11,10 @@ import datetime
 
 import numpy as np
 import xarray as xr
-from climetlab.decorators import parameters
+from climetlab.normalize import normalize_args
 from climetlab.utils import download_and_cache
 
 from . import Meteonet
-
-"""
-rainfall_diff_quality-code
-rainfall_mean_quality-code
-reflectivity_new
-reflectivity_old
-"""
 
 
 class Part:
@@ -68,8 +61,23 @@ class MeteonetRadar(Meteonet):
     See https://github.com/meteofrance/meteonet
     """
 
-    @parameters(date=("date-list",))
-    def __init__(self, domain="NW", variable="rainfall", date=20160101):
+    @normalize_args(
+        domain=Meteonet.DOMAIN,
+        variable=(
+            "rainfall",
+            "rainfall_diff_quality-code",
+            "rainfall_mean_quality-code",
+            "reflectivity_old",
+            "reflectivity_new",
+        ),
+        date="date-list",
+    )
+    def __init__(
+        self,
+        domain,
+        variable,
+        date=20160101,
+    ):
         self.variable = variable
 
         parts = {}

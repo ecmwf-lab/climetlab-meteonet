@@ -9,6 +9,7 @@
 
 
 from climetlab import load_source
+from climetlab.normalize import normalize_args
 
 from . import Meteonet
 
@@ -18,6 +19,7 @@ class MeteonetMasks(Meteonet):
     See https://github.com/meteofrance/meteonet
     """
 
+    @normalize_args(domain=Meteonet.DOMAIN)
     def __init__(
         self,
         domain="NW",

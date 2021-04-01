@@ -14,7 +14,7 @@ MODELS = ("arpege", "arome")
 
 
 def test_radar():
-    ds = cml.load_dataset("meteonet-radar", date=[20180501])
+    cml.load_dataset("meteonet-radar", date=[20180501])
 
 
 def test_masks():
@@ -34,7 +34,7 @@ def test_weather_models():
             for model in MODELS:
                 if model == "arome" and variable.startswith("3D"):
                     continue
-                ds = cml.load_dataset(
+                cml.load_dataset(
                     "meteonet-weather-models",
                     date=[20180601],
                     variable=variable,
