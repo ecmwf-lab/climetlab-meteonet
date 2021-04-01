@@ -19,7 +19,7 @@ class MeteonetMasks(Meteonet):
     See https://github.com/meteofrance/meteonet
     """
 
-    @normalize_args(domain=Meteonet.DOMAIN)
+    @normalize_args(domain=Meteonet.DOMAINS)
     def __init__(
         self,
         domain="NW",

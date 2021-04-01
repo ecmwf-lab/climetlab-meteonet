@@ -49,7 +49,7 @@ class MeteonetWeatherModels(Meteonet):
         model,
         variable,
         domain="NW",
-        date="20180501",
+        date="20160101",
         time="0000",
     ):
 

@@ -62,21 +62,21 @@ class MeteonetRadar(Meteonet):
     """
 
     @normalize_args(
-        domain=Meteonet.DOMAIN,
-        variable=(
+        domain=Meteonet.DOMAINS,
+        variable=[
             "rainfall",
             "rainfall_diff_quality-code",
             "rainfall_mean_quality-code",
             "reflectivity_old",
             "reflectivity_new",
-        ),
+        ],
         date="date-list",
     )
     def __init__(
         self,
-        domain,
-        variable,
-        date=20160101,
+        domain="NW",
+        variable="rainfall",
+        date="20160101",
     ):
         self.variable = variable
 
