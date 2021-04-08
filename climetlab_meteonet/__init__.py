@@ -12,7 +12,6 @@ __version__ = "0.0.21"
 from climetlab import Dataset
 
 
-
 class Meteonet(Dataset):
 
     # FIXME: This is a temporary URL, for development only
@@ -25,4 +24,4 @@ class Meteonet(Dataset):
     documentation = "https://meteofrance.github.io/meteonet/"
 
     DOMAINS = ["NW", "SE"]
-    MODELS = ['arome', 'arpege']
+    MODELS = ["arome", "arpege"]
