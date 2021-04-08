@@ -72,7 +72,7 @@ class MeteonetRadar(Meteonet):
         ],
         date="date-list",
     )
-    def __init__(
+    def _load(
         self,
         domain="NW",
         variable="rainfall",
