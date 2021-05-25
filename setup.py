@@ -41,7 +41,7 @@ setuptools.setup(
     url="https://github.com/ecmwf-lab/climetlab-meteonet",
     packages=setuptools.find_packages(),
     include_package_data=True,
-    install_requires=["climetlab>=0.5.0"],
+    install_requires=["climetlab>=0.7.0"],
     zip_safe=True,
     entry_points={
         "climetlab.datasets": [
