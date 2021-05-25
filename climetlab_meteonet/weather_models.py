@@ -44,7 +44,7 @@ class MeteonetWeatherModels(Meteonet):
         domain=Meteonet.DOMAINS,
         date="date-list",
     )
-    def _load(
+    def __init__(
         self,
         model,
         variable,

@@ -20,7 +20,7 @@ class MeteonetMasks(Meteonet):
     """
 
     @normalize_args(domain=Meteonet.DOMAINS)
-    def _load(
+    def __init__(
         self,
         domain="NW",
     ):
